@@ -350,6 +350,7 @@ function NytrixUI:Window(config)
                 Button.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
                 Button.TextSize = 12
                 Button.Font = Enum.Font.GothamBold
+                Button.LayoutOrder = section.ElementOrder
                 
                 local ButtonCorner = Instance.new("UICorner")
                 ButtonCorner.CornerRadius = UDim.new(0, 6)
@@ -375,6 +376,7 @@ section.ElementOrder = (section.ElementOrder or 0) + 1
                 ToggleContainer.Name = text .. "Toggle"
                 ToggleContainer.Size = UDim2.new(1, 0, 0, 22)
                 ToggleContainer.BackgroundTransparency = 1
+                ToggleContainer.LayoutOrder = section.ElementOrder
                 
                 local ToggleLabel = Instance.new("TextLabel")
                 ToggleLabel.Name = "Label"
@@ -442,6 +444,7 @@ section.ElementOrder = (section.ElementOrder or 0) + 1
                 InputContainer.Name = text .. "Input"
                 InputContainer.Size = UDim2.new(1, 0, 0, 45)
                 InputContainer.BackgroundTransparency = 1
+                InputContainer.LayoutOrder = section.ElementOrder
                 
                 local InputLabel = Instance.new("TextLabel")
                 InputLabel.Name = "Label"
@@ -491,6 +494,7 @@ section.ElementOrder = (section.ElementOrder or 0) + 1
                 DropdownContainer.Name = text .. "Dropdown"
                 DropdownContainer.Size = UDim2.new(1, 0, 0, 45)
                 DropdownContainer.BackgroundTransparency = 1
+                DropdownContainer.LayoutOrder = section.ElementOrder
                 
                 local DropdownLabel = Instance.new("TextLabel")
                 DropdownLabel.Name = "Label"
@@ -594,6 +598,7 @@ section.ElementOrder = (section.ElementOrder or 0) + 1
                 SliderContainer.Name = text .. "Slider"
                 SliderContainer.Size = UDim2.new(1, 0, 0, 50)
                 SliderContainer.BackgroundTransparency = 1
+                Slider.LayoutOrder = section.ElementOrder
                 
                 local SliderLabel = Instance.new("TextLabel")
                 SliderLabel.Name = "Label"
@@ -743,6 +748,7 @@ section.ElementOrder = (section.ElementOrder or 0) + 1
                 KeybindContainer.Name = text .. "Keybind"
                 KeybindContainer.Size = UDim2.new(1, 0, 0, 22)
                 KeybindContainer.BackgroundTransparency = 1
+                KeybindContainer.LayoutOrder = section.ElementOrder
                 
                 local KeybindLabel = Instance.new("TextLabel")
                 KeybindLabel.Name = "Label"
