@@ -340,6 +340,7 @@ function NytrixUI:Window(config)
             end)
             
             function section:Button(text, callback)
+                section.ElementOrder = (section.ElementOrder or 0) + 1
                 local Button = Instance.new("TextButton")
                 Button.Name = text .. "Button"
                 Button.Size = UDim2.new(1, 0, 0, 30)
@@ -369,6 +370,7 @@ function NytrixUI:Window(config)
             end
             
             function section:Toggle(text, default, callback)
+section.ElementOrder = (section.ElementOrder or 0) + 1
                 local ToggleContainer = Instance.new("Frame")
                 ToggleContainer.Name = text .. "Toggle"
                 ToggleContainer.Size = UDim2.new(1, 0, 0, 22)
@@ -435,6 +437,7 @@ function NytrixUI:Window(config)
             end
             
             function section:Textbox(text, placeholder, callback)
+section.ElementOrder = (section.ElementOrder or 0) + 1
                 local InputContainer = Instance.new("Frame")
                 InputContainer.Name = text .. "Input"
                 InputContainer.Size = UDim2.new(1, 0, 0, 45)
@@ -483,6 +486,7 @@ function NytrixUI:Window(config)
             end
             
             function section:Dropdown(text, options, default, callback)
+section.ElementOrder = (section.ElementOrder or 0) + 1
                 local DropdownContainer = Instance.new("Frame")
                 DropdownContainer.Name = text .. "Dropdown"
                 DropdownContainer.Size = UDim2.new(1, 0, 0, 45)
@@ -585,6 +589,7 @@ function NytrixUI:Window(config)
             end
             
             function section:Slider(text, min, max, default, callback)
+section.ElementOrder = (section.ElementOrder or 0) + 1
                 local SliderContainer = Instance.new("Frame")
                 SliderContainer.Name = text .. "Slider"
                 SliderContainer.Size = UDim2.new(1, 0, 0, 50)
@@ -733,6 +738,7 @@ function NytrixUI:Window(config)
             end
             
             function section:Keybind(text, defaultKey, callback)
+section.ElementOrder = (section.ElementOrder or 0) + 1
                 local KeybindContainer = Instance.new("Frame")
                 KeybindContainer.Name = text .. "Keybind"
                 KeybindContainer.Size = UDim2.new(1, 0, 0, 22)
