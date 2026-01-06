@@ -22,6 +22,7 @@ local player = Players.LocalPlayer
 function NytrixUI:Window(config)
     local window = {
         Tabs = {},
+        TabObjects = {},
         CurrentTab = nil,
         Elements = {}
     }
@@ -29,12 +30,13 @@ function NytrixUI:Window(config)
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Name = "NytrixUI"
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.ResetOnSpawn = false
     ScreenGui.Parent = player:WaitForChild("PlayerGui")
 
     local MainFrame = Instance.new("Frame")
     MainFrame.Name = "MainFrame"
-    MainFrame.Size = UDim2.new(0, config.Size.Width or 580, 0, config.Size.Height or 300)
-    MainFrame.Position = UDim2.new(0.5, -(config.Size.Width or 580)/2, 0.5, -(config.Size.Height or 300)/2)
+    MainFrame.Size = UDim2.new(0, config.Size.Width or 580, 0, config.Size.Height or 400)
+    MainFrame.Position = UDim2.new(0.5, -(config.Size.Width or 580)/2, 0.5, -(config.Size.Height or 400)/2)
     MainFrame.BackgroundColor3 = config.Theme.Background or self.Themes.Dark.Background
     MainFrame.BorderSizePixel = 0
     MainFrame.ClipsDescendants = true
@@ -147,7 +149,7 @@ function NytrixUI:Window(config)
 
     Dot1.MouseButton1Click:Connect(function()
         MainFrame.Visible = false
-        wait(2)
+        task.wait(2)
         MainFrame.Visible = true
     end)
 
@@ -180,6 +182,7 @@ function NytrixUI:Window(config)
     ContentFrame.Parent = MainFrame
 
     local tabFrames = {}
+    local tabButtons = {}
     
     function window:Tab(name)
         local tab = {
@@ -188,21 +191,25 @@ function NytrixUI:Window(config)
             Elements = {}
         }
         
-        if not table.find(self.Tabs, name) then
-            table.insert(self.Tabs, name)
-        end
+        table.insert(self.Tabs, name)
+        self.TabObjects[name] = tab
 
+        local tabCount = #self.Tabs
+        local tabWidth = 1 / tabCount
+        
         local TabButton = Instance.new("TextButton")
         TabButton.Name = name .. "Tab"
-        TabButton.Size = UDim2.new(1/#self.Tabs, -2, 1, 0)
-        TabButton.Position = UDim2.new((#self.Tabs-1)/#self.Tabs, 1, 0, 0)
+        TabButton.Size = UDim2.new(tabWidth, -2, 1, 0)
+        TabButton.Position = UDim2.new((tabCount-1) * tabWidth, 1, 0, 0)
         TabButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
         TabButton.BorderSizePixel = 0
         TabButton.Text = name
-        TabButton.TextColor3 = Color3.fromRGB(150, 150, 150)
+        TabButton.TextColor3 = tabCount == 1 and (config.Theme.Text or self.Themes.Dark.Text) or Color3.fromRGB(150, 150, 150)
         TabButton.TextSize = 11
         TabButton.Font = Enum.Font.GothamBold
         TabButton.Parent = TabsContainer
+        
+        tabButtons[name] = TabButton
         
         local TabHighlight = Instance.new("Frame")
         TabHighlight.Name = "Highlight"
@@ -210,7 +217,7 @@ function NytrixUI:Window(config)
         TabHighlight.Position = UDim2.new(0, 0, 1, -2)
         TabHighlight.BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
         TabHighlight.BorderSizePixel = 0
-        TabHighlight.Visible = #self.Tabs == 1
+        TabHighlight.Visible = tabCount == 1
         TabHighlight.Parent = TabButton
         
         local HighlightCorner = Instance.new("UICorner")
@@ -226,7 +233,7 @@ function NytrixUI:Window(config)
         TabContent.ScrollBarThickness = 3
         TabContent.ScrollBarImageColor3 = Color3.fromRGB(80, 80, 80)
         TabContent.ScrollBarImageTransparency = 0.5
-        TabContent.Visible = #self.Tabs == 1
+        TabContent.Visible = tabCount == 1
         TabContent.Parent = ContentFrame
         
         local UIListLayout = Instance.new("UIListLayout")
@@ -235,46 +242,64 @@ function NytrixUI:Window(config)
         
         tabFrames[name] = TabContent
         
-        if #self.Tabs == 1 then
+        if tabCount == 1 then
             self.CurrentTab = name
         end
         
         TabButton.MouseButton1Click:Connect(function()
+            if self.CurrentTab == name then return end
+            
             self.CurrentTab = name
+            
             for tabName, frame in pairs(tabFrames) do
-                frame.Visible = tabName == name
+                frame.Visible = false
             end
-            for _, btn in ipairs(TabsContainer:GetChildren()) do
-                if btn:IsA("TextButton") then
+            
+            TabContent.Visible = true
+            
+            for tabName, btn in pairs(tabButtons) do
+                if tabName == name then
+                    btn.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                    if btn:FindFirstChild("Highlight") then
+                        btn.Highlight.Visible = true
+                        TweenService:Create(btn.Highlight, TweenInfo.new(0.2), {
+                            BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
+                        }):Play()
+                    end
+                else
                     btn.TextColor3 = Color3.fromRGB(150, 150, 150)
                     if btn:FindFirstChild("Highlight") then
                         btn.Highlight.Visible = false
                     end
                 end
             end
-            TabButton.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
-            TabHighlight.Visible = true
-            
-            TweenService:Create(TabHighlight, TweenInfo.new(0.2), {BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent}):Play()
         end)
         
         TabButton.MouseEnter:Connect(function()
             if self.CurrentTab ~= name then
-                TweenService:Create(TabButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(35, 35, 35)}):Play()
+                TweenService:Create(TabButton, TweenInfo.new(0.2), {
+                    BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+                }):Play()
             end
         end)
         
         TabButton.MouseLeave:Connect(function()
             if self.CurrentTab ~= name then
-                TweenService:Create(TabButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(25, 25, 25)}):Play()
+                TweenService:Create(TabButton, TweenInfo.new(0.2), {
+                    BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+                }):Play()
             end
+        end)
+        
+        TabContent.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+            TabContent.CanvasSize = UDim2.new(0, 0, 0, TabContent.UIListLayout.AbsoluteContentSize.Y + 10)
         end)
         
         function tab:Section(title)
             local section = {
                 Title = title,
                 Elements = {},
-                ElementOrder = 0  -- Initialize counter ONCE here
+                ElementOrder = 0
             }
             
             local Section = Instance.new("Frame")
@@ -282,6 +307,7 @@ function NytrixUI:Window(config)
             Section.Size = UDim2.new(1, 0, 0, 60)
             Section.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
             Section.BorderSizePixel = 0
+            Section.LayoutOrder = section.ElementOrder
             
             local SectionCorner = Instance.new("UICorner")
             SectionCorner.CornerRadius = UDim.new(0, 8)
@@ -340,6 +366,7 @@ function NytrixUI:Window(config)
                 Section.Size = UDim2.new(1, 0, 0, math.max(50, ContentLayout.AbsoluteContentSize.Y + 35))
             end)
             
+            -- ==================== BUTTON ====================
             function section:Button(text, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local Button = Instance.new("TextButton")
@@ -360,17 +387,22 @@ function NytrixUI:Window(config)
                 Button.MouseButton1Click:Connect(callback)
                 
                 Button.MouseEnter:Connect(function()
-                    TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(100, 100, 100)}):Play()
+                    TweenService:Create(Button, TweenInfo.new(0.2), {
+                        BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+                    }):Play()
                 end)
                 
                 Button.MouseLeave:Connect(function()
-                    TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(80, 80, 80)}):Play()
+                    TweenService:Create(Button, TweenInfo.new(0.2), {
+                        BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+                    }):Play()
                 end)
                 
                 Button.Parent = ContentContainer
                 return Button
             end
             
+            -- ==================== TOGGLE ====================
             function section:Toggle(text, default, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local ToggleContainer = Instance.new("Frame")
@@ -420,11 +452,21 @@ function NytrixUI:Window(config)
                 
                 local function updateToggle()
                     if isToggled then
-                        TweenService:Create(ToggleButton, TweenInfo.new(0.2), {BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent}):Play()
-                        TweenService:Create(ToggleDot, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(255, 255, 255), Position = UDim2.new(1, -16, 0, 2)}):Play()
+                        TweenService:Create(ToggleButton, TweenInfo.new(0.2), {
+                            BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
+                        }):Play()
+                        TweenService:Create(ToggleDot, TweenInfo.new(0.2), {
+                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                            Position = UDim2.new(1, -16, 0, 2)
+                        }):Play()
                     else
-                        TweenService:Create(ToggleButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
-                        TweenService:Create(ToggleDot, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(150, 150, 150), Position = UDim2.new(0, 2, 0, 2)}):Play()
+                        TweenService:Create(ToggleButton, TweenInfo.new(0.2), {
+                            BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+                        }):Play()
+                        TweenService:Create(ToggleDot, TweenInfo.new(0.2), {
+                            BackgroundColor3 = Color3.fromRGB(150, 150, 150),
+                            Position = UDim2.new(0, 2, 0, 2)
+                        }):Play()
                     end
                     callback(isToggled)
                 end
@@ -439,6 +481,7 @@ function NytrixUI:Window(config)
                 return ToggleContainer
             end
             
+            -- ==================== TEXTBOX ====================
             function section:Textbox(text, placeholder, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local InputContainer = Instance.new("Frame")
@@ -476,11 +519,15 @@ function NytrixUI:Window(config)
                 TextBoxCorner.Parent = TextBox
 
                 TextBox.Focused:Connect(function()
-                    TweenService:Create(TextBox, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 40, 60)}):Play()
+                    TweenService:Create(TextBox, TweenInfo.new(0.2), {
+                        BackgroundColor3 = Color3.fromRGB(50, 40, 60)
+                    }):Play()
                 end)
                 
                 TextBox.FocusLost:Connect(function()
-                    TweenService:Create(TextBox, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}):Play()
+                    TweenService:Create(TextBox, TweenInfo.new(0.2), {
+                        BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                    }):Play()
                     callback(TextBox.Text)
                 end)
                 
@@ -489,6 +536,7 @@ function NytrixUI:Window(config)
                 return TextBox
             end
             
+            -- ==================== DROPDOWN ====================
             function section:Dropdown(text, options, default, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local DropdownContainer = Instance.new("Frame")
@@ -568,7 +616,9 @@ function NytrixUI:Window(config)
                         DropdownButton.Text = option
                         callback(option)
                         DropdownFrame.Visible = false
-                        TweenService:Create(DropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, 0)}):Play()
+                        TweenService:Create(DropdownFrame, TweenInfo.new(0.2), {
+                            Size = UDim2.new(1, 0, 0, 0)
+                        }):Play()
                     end)
                     
                     OptionButton.Parent = DropdownFrame
@@ -581,10 +631,14 @@ function NytrixUI:Window(config)
                     if isOpen then
                         DropdownFrame.Visible = true
                         local contentSize = OptionsLayout.AbsoluteContentSize.Y
-                        TweenService:Create(DropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, contentSize)}):Play()
+                        TweenService:Create(DropdownFrame, TweenInfo.new(0.2), {
+                            Size = UDim2.new(1, 0, 0, contentSize)
+                        }):Play()
                     else
-                        TweenService:Create(DropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, 0)}):Play()
-                        wait(0.2)
+                        TweenService:Create(DropdownFrame, TweenInfo.new(0.2), {
+                            Size = UDim2.new(1, 0, 0, 0)
+                        }):Play()
+                        task.wait(0.2)
                         DropdownFrame.Visible = false
                     end
                 end)
@@ -593,6 +647,7 @@ function NytrixUI:Window(config)
                 return DropdownContainer
             end
             
+            -- ==================== SLIDER ====================
             function section:Slider(text, min, max, default, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local SliderContainer = Instance.new("Frame")
@@ -706,14 +761,18 @@ function NytrixUI:Window(config)
                 SliderButton.InputBegan:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 then
                         isSliding = true
-                        TweenService:Create(SliderButton, TweenInfo.new(0.2), {Size = UDim2.new(0, 20, 0, 20)}):Play()
+                        TweenService:Create(SliderButton, TweenInfo.new(0.2), {
+                            Size = UDim2.new(0, 20, 0, 20)
+                        }):Play()
                     end
                 end)
                 
                 SliderButton.InputEnded:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 then
                         isSliding = false
-                        TweenService:Create(SliderButton, TweenInfo.new(0.2), {Size = UDim2.new(0, 16, 0, 16)}):Play()
+                        TweenService:Create(SliderButton, TweenInfo.new(0.2), {
+                            Size = UDim2.new(0, 16, 0, 16)
+                        }):Play()
                     end
                 end)
                 
@@ -721,7 +780,9 @@ function NytrixUI:Window(config)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 then
                         isSliding = true
                         slide(input)
-                        TweenService:Create(SliderButton, TweenInfo.new(0.2), {Size = UDim2.new(0, 20, 0, 20)}):Play()
+                        TweenService:Create(SliderButton, TweenInfo.new(0.2), {
+                            Size = UDim2.new(0, 20, 0, 20)
+                        }):Play()
                     end
                 end)
                 
@@ -734,7 +795,9 @@ function NytrixUI:Window(config)
                 UserInputService.InputEnded:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 then
                         isSliding = false
-                        TweenService:Create(SliderButton, TweenInfo.new(0.2), {Size = UDim2.new(0, 16, 0, 16)}):Play()
+                        TweenService:Create(SliderButton, TweenInfo.new(0.2), {
+                            Size = UDim2.new(0, 16, 0, 16)
+                        }):Play()
                     end
                 end)
                 
@@ -743,6 +806,7 @@ function NytrixUI:Window(config)
                 return SliderContainer
             end
             
+            -- ==================== KEYBIND ====================
             function section:Keybind(text, defaultKey, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local KeybindContainer = Instance.new("Frame")
@@ -778,22 +842,29 @@ function NytrixUI:Window(config)
                 KeybindCorner.Parent = KeybindButton
                 
                 local listening = false
+                local connection
+                
+                local function updateKeybind(key)
+                    KeybindButton.Text = tostring(key):gsub("Enum.KeyCode.", "")
+                    callback(key)
+                end
                 
                 KeybindButton.MouseButton1Click:Connect(function()
                     listening = true
                     KeybindButton.Text = "..."
                     KeybindButton.BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
-                end)
-                
-                local connection
-                connection = UserInputService.InputBegan:Connect(function(input)
-                    if listening and input.UserInputType == Enum.UserInputType.Keyboard then
-                        listening = false
-                        KeybindButton.Text = tostring(input.KeyCode):gsub("Enum.KeyCode.", "")
-                        KeybindButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-                        callback(input.KeyCode)
+                    
+                    if connection then
                         connection:Disconnect()
                     end
+                    
+                    connection = UserInputService.InputBegan:Connect(function(input)
+                        if listening and input.UserInputType == Enum.UserInputType.Keyboard then
+                            listening = false
+                            KeybindButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                            updateKeybind(input.KeyCode)
+                        end
+                    end)
                 end)
                 
                 KeybindButton.Parent = KeybindContainer
@@ -805,11 +876,6 @@ function NytrixUI:Window(config)
             return section
         end
         
-        TabContent.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-            TabContent.CanvasSize = UDim2.new(0, 0, 0, TabContent.UIListLayout.AbsoluteContentSize.Y + 10)
-        end)
-        
-        table.insert(self.Tabs, tab)
         return tab
     end
     
@@ -818,7 +884,10 @@ function NytrixUI:Window(config)
 
     local function update(input)
         local delta = input.Position - dragStart
-        MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        MainFrame.Position = UDim2.new(
+            startPos.X.Scale, startPos.X.Offset + delta.X,
+            startPos.Y.Scale, startPos.Y.Offset + delta.Y
+        )
     end
 
     TitleBar.InputBegan:Connect(function(input)
