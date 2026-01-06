@@ -1,14 +1,235 @@
-
 local NytrixUI = {
     Windows = {},
     Elements = {},
     Themes = {
+        -- Default Dark Theme (Purple accent)
         Dark = {
             Background = Color3.fromRGB(10, 10, 10),
             Secondary = Color3.fromRGB(20, 20, 20),
             Accent = Color3.fromRGB(170, 0, 255),
             Text = Color3.fromRGB(255, 255, 255),
-            SubText = Color3.fromRGB(180, 180, 180)
+            SubText = Color3.fromRGB(180, 180, 180),
+            Button = Color3.fromRGB(80, 80, 80),
+            ButtonHover = Color3.fromRGB(100, 100, 100),
+            ToggleOff = Color3.fromRGB(60, 60, 60),
+            ToggleOn = Color3.fromRGB(170, 0, 255),
+            SliderTrack = Color3.fromRGB(50, 50, 50),
+            SliderFill = Color3.fromRGB(170, 0, 255),
+            Section = Color3.fromRGB(30, 30, 30),
+            SectionHeader = Color3.fromRGB(35, 35, 35),
+            Textbox = Color3.fromRGB(40, 40, 40),
+            TextboxFocused = Color3.fromRGB(50, 40, 60),
+            Dropdown = Color3.fromRGB(50, 50, 50),
+            DropdownHover = Color3.fromRGB(60, 60, 60),
+            Keybind = Color3.fromRGB(50, 50, 50),
+            KeybindListening = Color3.fromRGB(170, 0, 255)
+        },
+        
+        -- Blue Theme
+        Blue = {
+            Background = Color3.fromRGB(15, 20, 30),
+            Secondary = Color3.fromRGB(25, 35, 50),
+            Accent = Color3.fromRGB(0, 150, 255),
+            Text = Color3.fromRGB(240, 240, 255),
+            SubText = Color3.fromRGB(180, 190, 210),
+            Button = Color3.fromRGB(40, 60, 90),
+            ButtonHover = Color3.fromRGB(50, 80, 120),
+            ToggleOff = Color3.fromRGB(50, 70, 100),
+            ToggleOn = Color3.fromRGB(0, 150, 255),
+            SliderTrack = Color3.fromRGB(40, 55, 80),
+            SliderFill = Color3.fromRGB(0, 150, 255),
+            Section = Color3.fromRGB(25, 35, 50),
+            SectionHeader = Color3.fromRGB(30, 45, 65),
+            Textbox = Color3.fromRGB(35, 50, 75),
+            TextboxFocused = Color3.fromRGB(45, 60, 90),
+            Dropdown = Color3.fromRGB(45, 65, 95),
+            DropdownHover = Color3.fromRGB(55, 80, 115),
+            Keybind = Color3.fromRGB(45, 65, 95),
+            KeybindListening = Color3.fromRGB(0, 150, 255)
+        },
+        
+        -- Green Theme
+        Green = {
+            Background = Color3.fromRGB(15, 25, 15),
+            Secondary = Color3.fromRGB(25, 40, 25),
+            Accent = Color3.fromRGB(0, 200, 100),
+            Text = Color3.fromRGB(220, 255, 220),
+            SubText = Color3.fromRGB(160, 200, 160),
+            Button = Color3.fromRGB(40, 70, 40),
+            ButtonHover = Color3.fromRGB(50, 90, 50),
+            ToggleOff = Color3.fromRGB(50, 80, 50),
+            ToggleOn = Color3.fromRGB(0, 200, 100),
+            SliderTrack = Color3.fromRGB(40, 65, 40),
+            SliderFill = Color3.fromRGB(0, 200, 100),
+            Section = Color3.fromRGB(30, 50, 30),
+            SectionHeader = Color3.fromRGB(35, 60, 35),
+            Textbox = Color3.fromRGB(35, 55, 35),
+            TextboxFocused = Color3.fromRGB(45, 75, 45),
+            Dropdown = Color3.fromRGB(45, 75, 45),
+            DropdownHover = Color3.fromRGB(55, 90, 55),
+            Keybind = Color3.fromRGB(45, 75, 45),
+            KeybindListening = Color3.fromRGB(0, 200, 100)
+        },
+        
+        -- Red Theme
+        Red = {
+            Background = Color3.fromRGB(25, 10, 10),
+            Secondary = Color3.fromRGB(40, 20, 20),
+            Accent = Color3.fromRGB(255, 50, 50),
+            Text = Color3.fromRGB(255, 220, 220),
+            SubText = Color3.fromRGB(200, 160, 160),
+            Button = Color3.fromRGB(70, 30, 30),
+            ButtonHover = Color3.fromRGB(90, 40, 40),
+            ToggleOff = Color3.fromRGB(80, 35, 35),
+            ToggleOn = Color3.fromRGB(255, 50, 50),
+            SliderTrack = Color3.fromRGB(65, 30, 30),
+            SliderFill = Color3.fromRGB(255, 50, 50),
+            Section = Color3.fromRGB(50, 25, 25),
+            SectionHeader = Color3.fromRGB(60, 30, 30),
+            Textbox = Color3.fromRGB(55, 25, 25),
+            TextboxFocused = Color3.fromRGB(70, 30, 30),
+            Dropdown = Color3.fromRGB(65, 30, 30),
+            DropdownHover = Color3.fromRGB(80, 35, 35),
+            Keybind = Color3.fromRGB(65, 30, 30),
+            KeybindListening = Color3.fromRGB(255, 50, 50)
+        },
+        
+        -- Pastel Theme
+        Pastel = {
+            Background = Color3.fromRGB(245, 235, 255),
+            Secondary = Color3.fromRGB(230, 220, 245),
+            Accent = Color3.fromRGB(180, 120, 255),
+            Text = Color3.fromRGB(40, 30, 60),
+            SubText = Color3.fromRGB(100, 85, 130),
+            Button = Color3.fromRGB(210, 200, 230),
+            ButtonHover = Color3.fromRGB(200, 185, 225),
+            ToggleOff = Color3.fromRGB(195, 185, 215),
+            ToggleOn = Color3.fromRGB(180, 120, 255),
+            SliderTrack = Color3.fromRGB(200, 190, 220),
+            SliderFill = Color3.fromRGB(180, 120, 255),
+            Section = Color3.fromRGB(235, 225, 250),
+            SectionHeader = Color3.fromRGB(225, 210, 240),
+            Textbox = Color3.fromRGB(220, 210, 235),
+            TextboxFocused = Color3.fromRGB(210, 195, 230),
+            Dropdown = Color3.fromRGB(215, 205, 235),
+            DropdownHover = Color3.fromRGB(205, 190, 230),
+            Keybind = Color3.fromRGB(215, 205, 235),
+            KeybindListening = Color3.fromRGB(180, 120, 255)
+        },
+        
+        -- Midnight Theme
+        Midnight = {
+            Background = Color3.fromRGB(5, 5, 15),
+            Secondary = Color3.fromRGB(15, 15, 25),
+            Accent = Color3.fromRGB(120, 0, 200),
+            Text = Color3.fromRGB(230, 230, 255),
+            SubText = Color3.fromRGB(150, 150, 180),
+            Button = Color3.fromRGB(30, 30, 50),
+            ButtonHover = Color3.fromRGB(40, 40, 65),
+            ToggleOff = Color3.fromRGB(35, 35, 55),
+            ToggleOn = Color3.fromRGB(120, 0, 200),
+            SliderTrack = Color3.fromRGB(25, 25, 40),
+            SliderFill = Color3.fromRGB(120, 0, 200),
+            Section = Color3.fromRGB(20, 20, 35),
+            SectionHeader = Color3.fromRGB(25, 25, 45),
+            Textbox = Color3.fromRGB(30, 30, 45),
+            TextboxFocused = Color3.fromRGB(40, 30, 55),
+            Dropdown = Color3.fromRGB(35, 35, 55),
+            DropdownHover = Color3.fromRGB(45, 45, 70),
+            Keybind = Color3.fromRGB(35, 35, 55),
+            KeybindListening = Color3.fromRGB(120, 0, 200)
+        },
+        
+        -- Ocean Theme
+        Ocean = {
+            Background = Color3.fromRGB(10, 20, 35),
+            Secondary = Color3.fromRGB(20, 35, 55),
+            Accent = Color3.fromRGB(0, 180, 220),
+            Text = Color3.fromRGB(220, 240, 255),
+            SubText = Color3.fromRGB(160, 200, 220),
+            Button = Color3.fromRGB(30, 50, 75),
+            ButtonHover = Color3.fromRGB(40, 65, 95),
+            ToggleOff = Color3.fromRGB(35, 60, 85),
+            ToggleOn = Color3.fromRGB(0, 180, 220),
+            SliderTrack = Color3.fromRGB(25, 45, 65),
+            SliderFill = Color3.fromRGB(0, 180, 220),
+            Section = Color3.fromRGB(25, 40, 60),
+            SectionHeader = Color3.fromRGB(30, 50, 75),
+            Textbox = Color3.fromRGB(30, 45, 70),
+            TextboxFocused = Color3.fromRGB(40, 55, 85),
+            Dropdown = Color3.fromRGB(35, 55, 85),
+            DropdownHover = Color3.fromRGB(45, 70, 105),
+            Keybind = Color3.fromRGB(35, 55, 85),
+            KeybindListening = Color3.fromRGB(0, 180, 220)
+        },
+        
+        -- Cyberpunk Theme
+        Cyberpunk = {
+            Background = Color3.fromRGB(10, 5, 20),
+            Secondary = Color3.fromRGB(20, 10, 35),
+            Accent = Color3.fromRGB(255, 0, 200),
+            Text = Color3.fromRGB(255, 220, 255),
+            SubText = Color3.fromRGB(180, 140, 200),
+            Button = Color3.fromRGB(40, 20, 60),
+            ButtonHover = Color3.fromRGB(60, 30, 85),
+            ToggleOff = Color3.fromRGB(50, 25, 70),
+            ToggleOn = Color3.fromRGB(255, 0, 200),
+            SliderTrack = Color3.fromRGB(35, 15, 50),
+            SliderFill = Color3.fromRGB(255, 0, 200),
+            Section = Color3.fromRGB(25, 15, 40),
+            SectionHeader = Color3.fromRGB(35, 20, 55),
+            Textbox = Color3.fromRGB(30, 15, 45),
+            TextboxFocused = Color3.fromRGB(40, 20, 60),
+            Dropdown = Color3.fromRGB(35, 20, 55),
+            DropdownHover = Color3.fromRGB(45, 25, 70),
+            Keybind = Color3.fromRGB(35, 20, 55),
+            KeybindListening = Color3.fromRGB(255, 0, 200)
+        },
+        
+        -- Gold Theme
+        Gold = {
+            Background = Color3.fromRGB(25, 20, 10),
+            Secondary = Color3.fromRGB(40, 35, 20),
+            Accent = Color3.fromRGB(255, 215, 0),
+            Text = Color3.fromRGB(255, 250, 220),
+            SubText = Color3.fromRGB(200, 190, 150),
+            Button = Color3.fromRGB(70, 60, 30),
+            ButtonHover = Color3.fromRGB(90, 80, 40),
+            ToggleOff = Color3.fromRGB(80, 70, 35),
+            ToggleOn = Color3.fromRGB(255, 215, 0),
+            SliderTrack = Color3.fromRGB(65, 55, 25),
+            SliderFill = Color3.fromRGB(255, 215, 0),
+            Section = Color3.fromRGB(50, 45, 25),
+            SectionHeader = Color3.fromRGB(60, 55, 30),
+            Textbox = Color3.fromRGB(55, 50, 25),
+            TextboxFocused = Color3.fromRGB(70, 65, 35),
+            Dropdown = Color3.fromRGB(65, 60, 30),
+            DropdownHover = Color3.fromRGB(80, 75, 40),
+            Keybind = Color3.fromRGB(65, 60, 30),
+            KeybindListening = Color3.fromRGB(255, 215, 0)
+        },
+        
+        -- Matrix Theme
+        Matrix = {
+            Background = Color3.fromRGB(0, 15, 0),
+            Secondary = Color3.fromRGB(0, 25, 0),
+            Accent = Color3.fromRGB(0, 255, 0),
+            Text = Color3.fromRGB(0, 255, 0),
+            SubText = Color3.fromRGB(0, 180, 0),
+            Button = Color3.fromRGB(0, 40, 0),
+            ButtonHover = Color3.fromRGB(0, 60, 0),
+            ToggleOff = Color3.fromRGB(0, 50, 0),
+            ToggleOn = Color3.fromRGB(0, 255, 0),
+            SliderTrack = Color3.fromRGB(0, 35, 0),
+            SliderFill = Color3.fromRGB(0, 255, 0),
+            Section = Color3.fromRGB(0, 30, 0),
+            SectionHeader = Color3.fromRGB(0, 40, 0),
+            Textbox = Color3.fromRGB(0, 35, 0),
+            TextboxFocused = Color3.fromRGB(0, 50, 0),
+            Dropdown = Color3.fromRGB(0, 45, 0),
+            DropdownHover = Color3.fromRGB(0, 65, 0),
+            Keybind = Color3.fromRGB(0, 45, 0),
+            KeybindListening = Color3.fromRGB(0, 255, 0)
         }
     }
 }
@@ -28,6 +249,23 @@ function NytrixUI:Window(config)
         Elements = {}
     }
     
+    -- Merge user theme with default theme to ensure all properties exist
+    local theme = {}
+    local defaultTheme = self.Themes.Dark
+    
+    if config.Theme then
+        -- Copy all properties from default theme first
+        for key, value in pairs(defaultTheme) do
+            theme[key] = config.Theme[key] or value
+        end
+        -- Then override with user theme
+        for key, value in pairs(config.Theme) do
+            theme[key] = value
+        end
+    else
+        theme = defaultTheme
+    end
+    
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Name = "NytrixUI"
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -38,12 +276,10 @@ function NytrixUI:Window(config)
     MainFrame.Name = "MainFrame"
     MainFrame.Size = UDim2.new(0, config.Size.Width or 580, 0, config.Size.Height or 400)
     MainFrame.Position = UDim2.new(0.5, -(config.Size.Width or 580)/2, 0.5, -(config.Size.Height or 400)/2)
-    MainFrame.BackgroundColor3 = config.Theme.Background or self.Themes.Dark.Background
+    MainFrame.BackgroundColor3 = theme.Background
     MainFrame.BorderSizePixel = 0
     MainFrame.ClipsDescendants = true
     MainFrame.Parent = ScreenGui
-    MainFrame.Active = true
-    MainFrame.Draggable = true
 
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0, 12)
@@ -51,8 +287,12 @@ function NytrixUI:Window(config)
 
     local Gradient = Instance.new("UIGradient")
     Gradient.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, config.Theme.Background or self.Themes.Dark.Background),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(10, 10, 10))
+        ColorSequenceKeypoint.new(0, theme.Background),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(
+            math.floor(theme.Background.R * 0.7 * 255),
+            math.floor(theme.Background.G * 0.7 * 255),
+            math.floor(theme.Background.B * 0.7 * 255)
+        ))
     })
     Gradient.Rotation = 45
     Gradient.Parent = MainFrame
@@ -72,7 +312,7 @@ function NytrixUI:Window(config)
     local TitleBar = Instance.new("Frame")
     TitleBar.Name = "TitleBar"
     TitleBar.Size = UDim2.new(1, 0, 0, 40)
-    TitleBar.BackgroundColor3 = config.Theme.Secondary or self.Themes.Dark.Secondary
+    TitleBar.BackgroundColor3 = theme.Secondary
     TitleBar.BorderSizePixel = 0
     TitleBar.Parent = MainFrame
 
@@ -86,7 +326,7 @@ function NytrixUI:Window(config)
     TitleText.Position = UDim2.new(0, 15, 0, 5)
     TitleText.BackgroundTransparency = 1
     TitleText.Text = config.Title or "Nytrix UI"
-    TitleText.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+    TitleText.TextColor3 = theme.Text
     TitleText.TextSize = 16
     TitleText.Font = Enum.Font.GothamBold
     TitleText.TextXAlignment = Enum.TextXAlignment.Left
@@ -98,7 +338,7 @@ function NytrixUI:Window(config)
     SubtitleText.Position = UDim2.new(0, 15, 0, 22)
     SubtitleText.BackgroundTransparency = 1
     SubtitleText.Text = config.Subtitle or "Subtitle"
-    SubtitleText.TextColor3 = config.Theme.SubText or self.Themes.Dark.SubText
+    SubtitleText.TextColor3 = theme.SubText
     SubtitleText.TextSize = 11
     SubtitleText.Font = Enum.Font.GothamBold
     SubtitleText.TextXAlignment = Enum.TextXAlignment.Left
@@ -197,13 +437,11 @@ function NytrixUI:Window(config)
         table.insert(self.Tabs, name)
         self.TabObjects[name] = tab
 
-        -- FIXED: Use fixed width for tab buttons instead of dividing space
-        local TAB_WIDTH = 70  -- Fixed width for each tab
-        local TAB_SPACING = 5  -- Space between tabs
+        local TAB_WIDTH = 70
+        local TAB_SPACING = 5
         local totalTabs = #self.Tabs
         
-        -- Calculate position for this tab
-        local positionX = 5  -- Start with some padding
+        local positionX = 5
         for i, tabName in ipairs(self.Tabs) do
             if tabName == name then
                 break
@@ -213,12 +451,12 @@ function NytrixUI:Window(config)
         
         local TabButton = Instance.new("TextButton")
         TabButton.Name = name .. "Tab"
-        TabButton.Size = UDim2.new(0, TAB_WIDTH, 0.8, 0)  -- Fixed width, 80% height
-        TabButton.Position = UDim2.new(0, positionX, 0.1, 0)  -- 10% from top
+        TabButton.Size = UDim2.new(0, TAB_WIDTH, 0.8, 0)
+        TabButton.Position = UDim2.new(0, positionX, 0.1, 0)
         TabButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
         TabButton.BorderSizePixel = 0
         TabButton.Text = name
-        TabButton.TextColor3 = totalTabs == 1 and (config.Theme.Text or self.Themes.Dark.Text) or Color3.fromRGB(150, 150, 150)
+        TabButton.TextColor3 = totalTabs == 1 and theme.Text or Color3.fromRGB(150, 150, 150)
         TabButton.TextSize = 11
         TabButton.Font = Enum.Font.GothamBold
         TabButton.Parent = TabsContainer
@@ -229,7 +467,7 @@ function NytrixUI:Window(config)
         TabHighlight.Name = "Highlight"
         TabHighlight.Size = UDim2.new(1, 0, 0, 2)
         TabHighlight.Position = UDim2.new(0, 0, 1, -2)
-        TabHighlight.BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
+        TabHighlight.BackgroundColor3 = theme.Accent
         TabHighlight.BorderSizePixel = 0
         TabHighlight.Visible = totalTabs == 1
         TabHighlight.Parent = TabButton
@@ -273,11 +511,11 @@ function NytrixUI:Window(config)
             
             for tabName, btn in pairs(tabButtons) do
                 if tabName == name then
-                    btn.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                    btn.TextColor3 = theme.Text
                     if btn:FindFirstChild("Highlight") then
                         btn.Highlight.Visible = true
                         TweenService:Create(btn.Highlight, TweenInfo.new(0.2), {
-                            BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
+                            BackgroundColor3 = theme.Accent
                         }):Play()
                     end
                 else
@@ -319,7 +557,7 @@ function NytrixUI:Window(config)
             local Section = Instance.new("Frame")
             Section.Name = title .. "Section"
             Section.Size = UDim2.new(1, 0, 0, 60)
-            Section.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            Section.BackgroundColor3 = theme.Section
             Section.BorderSizePixel = 0
             Section.LayoutOrder = section.ElementOrder
             
@@ -331,7 +569,7 @@ function NytrixUI:Window(config)
             AccentLine.Name = "AccentLine"
             AccentLine.Size = UDim2.new(1, 0, 0, 2)
             AccentLine.Position = UDim2.new(0, 0, 0, 0)
-            AccentLine.BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
+            AccentLine.BackgroundColor3 = theme.Accent
             AccentLine.BorderSizePixel = 0
             AccentLine.Parent = Section
             
@@ -343,7 +581,7 @@ function NytrixUI:Window(config)
             SectionHeader.Name = "Header"
             SectionHeader.Size = UDim2.new(1, 0, 0, 25)
             SectionHeader.Position = UDim2.new(0, 0, 0, 2)
-            SectionHeader.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+            SectionHeader.BackgroundColor3 = theme.SectionHeader
             SectionHeader.BorderSizePixel = 0
             SectionHeader.Parent = Section
             
@@ -357,7 +595,7 @@ function NytrixUI:Window(config)
             SectionTitle.Position = UDim2.new(0, 10, 0, 0)
             SectionTitle.BackgroundTransparency = 1
             SectionTitle.Text = title
-            SectionTitle.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+            SectionTitle.TextColor3 = theme.Text
             SectionTitle.TextSize = 11
             SectionTitle.Font = Enum.Font.GothamBold
             SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
@@ -380,16 +618,16 @@ function NytrixUI:Window(config)
                 Section.Size = UDim2.new(1, 0, 0, math.max(50, ContentLayout.AbsoluteContentSize.Y + 35))
             end)
             
-            -- BUTTON
+            -- ==================== BUTTON ====================
             function section:Button(text, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local Button = Instance.new("TextButton")
                 Button.Name = text .. "Button"
                 Button.Size = UDim2.new(1, 0, 0, 30)
-                Button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+                Button.BackgroundColor3 = theme.Button
                 Button.BorderSizePixel = 0
                 Button.Text = text
-                Button.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                Button.TextColor3 = theme.Text
                 Button.TextSize = 12
                 Button.Font = Enum.Font.GothamBold
                 Button.LayoutOrder = section.ElementOrder
@@ -402,13 +640,13 @@ function NytrixUI:Window(config)
                 
                 Button.MouseEnter:Connect(function()
                     TweenService:Create(Button, TweenInfo.new(0.2), {
-                        BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+                        BackgroundColor3 = theme.ButtonHover
                     }):Play()
                 end)
                 
                 Button.MouseLeave:Connect(function()
                     TweenService:Create(Button, TweenInfo.new(0.2), {
-                        BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+                        BackgroundColor3 = theme.Button
                     }):Play()
                 end)
                 
@@ -416,7 +654,7 @@ function NytrixUI:Window(config)
                 return Button
             end
             
-            -- TOGGLE
+            -- ==================== TOGGLE ====================
             function section:Toggle(text, default, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local ToggleContainer = Instance.new("Frame")
@@ -430,7 +668,7 @@ function NytrixUI:Window(config)
                 ToggleLabel.Size = UDim2.new(1, -35, 1, 0)
                 ToggleLabel.BackgroundTransparency = 1
                 ToggleLabel.Text = text
-                ToggleLabel.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                ToggleLabel.TextColor3 = theme.Text
                 ToggleLabel.TextSize = 11
                 ToggleLabel.Font = Enum.Font.GothamBold
                 ToggleLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -440,7 +678,7 @@ function NytrixUI:Window(config)
                 ToggleButton.Name = "Toggle"
                 ToggleButton.Size = UDim2.new(0, 35, 0, 18)
                 ToggleButton.Position = UDim2.new(1, -35, 0.5, -9)
-                ToggleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+                ToggleButton.BackgroundColor3 = theme.ToggleOff
                 ToggleButton.BorderSizePixel = 0
                 ToggleButton.Text = ""
                 
@@ -467,7 +705,7 @@ function NytrixUI:Window(config)
                 local function updateToggle()
                     if isToggled then
                         TweenService:Create(ToggleButton, TweenInfo.new(0.2), {
-                            BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
+                            BackgroundColor3 = theme.ToggleOn
                         }):Play()
                         TweenService:Create(ToggleDot, TweenInfo.new(0.2), {
                             BackgroundColor3 = Color3.fromRGB(255, 255, 255),
@@ -475,7 +713,7 @@ function NytrixUI:Window(config)
                         }):Play()
                     else
                         TweenService:Create(ToggleButton, TweenInfo.new(0.2), {
-                            BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+                            BackgroundColor3 = theme.ToggleOff
                         }):Play()
                         TweenService:Create(ToggleDot, TweenInfo.new(0.2), {
                             BackgroundColor3 = Color3.fromRGB(150, 150, 150),
@@ -495,7 +733,7 @@ function NytrixUI:Window(config)
                 return ToggleContainer
             end
             
-            -- TEXTBOX
+            -- ==================== TEXTBOX ====================
             function section:Textbox(text, placeholder, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local InputContainer = Instance.new("Frame")
@@ -509,7 +747,7 @@ function NytrixUI:Window(config)
                 InputLabel.Size = UDim2.new(1, 0, 0, 16)
                 InputLabel.BackgroundTransparency = 1
                 InputLabel.Text = text
-                InputLabel.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                InputLabel.TextColor3 = theme.Text
                 InputLabel.TextSize = 10
                 InputLabel.Font = Enum.Font.GothamBold
                 InputLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -519,11 +757,11 @@ function NytrixUI:Window(config)
                 TextBox.Name = "Input"
                 TextBox.Size = UDim2.new(1, 0, 0, 25)
                 TextBox.Position = UDim2.new(0, 0, 0, 18)
-                TextBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                TextBox.BackgroundColor3 = theme.Textbox
                 TextBox.BorderSizePixel = 0
                 TextBox.Text = ""
                 TextBox.PlaceholderText = placeholder
-                TextBox.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                TextBox.TextColor3 = theme.Text
                 TextBox.TextSize = 11
                 TextBox.Font = Enum.Font.GothamBold
                 TextBox.ClearTextOnFocus = false
@@ -534,13 +772,13 @@ function NytrixUI:Window(config)
 
                 TextBox.Focused:Connect(function()
                     TweenService:Create(TextBox, TweenInfo.new(0.2), {
-                        BackgroundColor3 = Color3.fromRGB(50, 40, 60)
+                        BackgroundColor3 = theme.TextboxFocused
                     }):Play()
                 end)
                 
                 TextBox.FocusLost:Connect(function()
                     TweenService:Create(TextBox, TweenInfo.new(0.2), {
-                        BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                        BackgroundColor3 = theme.Textbox
                     }):Play()
                     callback(TextBox.Text)
                 end)
@@ -550,7 +788,7 @@ function NytrixUI:Window(config)
                 return TextBox
             end
             
-            -- DROPDOWN
+            -- ==================== DROPDOWN ====================
             function section:Dropdown(text, options, default, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local DropdownContainer = Instance.new("Frame")
@@ -564,7 +802,7 @@ function NytrixUI:Window(config)
                 DropdownLabel.Size = UDim2.new(1, 0, 0, 16)
                 DropdownLabel.BackgroundTransparency = 1
                 DropdownLabel.Text = text
-                DropdownLabel.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                DropdownLabel.TextColor3 = theme.Text
                 DropdownLabel.TextSize = 10
                 DropdownLabel.Font = Enum.Font.GothamBold
                 DropdownLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -574,10 +812,10 @@ function NytrixUI:Window(config)
                 DropdownButton.Name = "DropdownButton"
                 DropdownButton.Size = UDim2.new(1, 0, 0, 25)
                 DropdownButton.Position = UDim2.new(0, 0, 0, 18)
-                DropdownButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                DropdownButton.BackgroundColor3 = theme.Dropdown
                 DropdownButton.BorderSizePixel = 0
                 DropdownButton.Text = default or "Select..."
-                DropdownButton.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                DropdownButton.TextColor3 = theme.Text
                 DropdownButton.TextSize = 11
                 DropdownButton.Font = Enum.Font.GothamBold
                 
@@ -622,9 +860,21 @@ function NytrixUI:Window(config)
                     OptionButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
                     OptionButton.BorderSizePixel = 0
                     OptionButton.Text = option
-                    OptionButton.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                    OptionButton.TextColor3 = theme.Text
                     OptionButton.TextSize = 10
                     OptionButton.Font = Enum.Font.GothamBold
+                    
+                    OptionButton.MouseEnter:Connect(function()
+                        TweenService:Create(OptionButton, TweenInfo.new(0.2), {
+                            BackgroundColor3 = theme.DropdownHover
+                        }):Play()
+                    end)
+                    
+                    OptionButton.MouseLeave:Connect(function()
+                        TweenService:Create(OptionButton, TweenInfo.new(0.2), {
+                            BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+                        }):Play()
+                    end)
                     
                     OptionButton.MouseButton1Click:Connect(function()
                         DropdownButton.Text = option
@@ -661,7 +911,7 @@ function NytrixUI:Window(config)
                 return DropdownContainer
             end
             
-            -- SLIDER
+            -- ==================== SLIDER ====================
             function section:Slider(text, min, max, default, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local SliderContainer = Instance.new("Frame")
@@ -675,7 +925,7 @@ function NytrixUI:Window(config)
                 SliderLabel.Size = UDim2.new(1, 0, 0, 16)
                 SliderLabel.BackgroundTransparency = 1
                 SliderLabel.Text = text
-                SliderLabel.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                SliderLabel.TextColor3 = theme.Text
                 SliderLabel.TextSize = 10
                 SliderLabel.Font = Enum.Font.GothamBold
                 SliderLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -687,7 +937,7 @@ function NytrixUI:Window(config)
                 ValueLabel.Position = UDim2.new(1, -60, 0, 0)
                 ValueLabel.BackgroundTransparency = 1
                 ValueLabel.Text = tostring(default)
-                ValueLabel.TextColor3 = config.Theme.SubText or self.Themes.Dark.SubText
+                ValueLabel.TextColor3 = theme.SubText
                 ValueLabel.TextSize = 10
                 ValueLabel.Font = Enum.Font.GothamBold
                 ValueLabel.TextXAlignment = Enum.TextXAlignment.Right
@@ -697,7 +947,7 @@ function NytrixUI:Window(config)
                 SliderTrack.Name = "Track"
                 SliderTrack.Size = UDim2.new(1, 0, 0, 6)
                 SliderTrack.Position = UDim2.new(0, 0, 0, 25)
-                SliderTrack.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                SliderTrack.BackgroundColor3 = theme.SliderTrack
                 SliderTrack.BorderSizePixel = 0
                 
                 local TrackCorner = Instance.new("UICorner")
@@ -707,7 +957,7 @@ function NytrixUI:Window(config)
                 local SliderFill = Instance.new("Frame")
                 SliderFill.Name = "Fill"
                 SliderFill.Size = UDim2.new(0, 0, 1, 0)
-                SliderFill.BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
+                SliderFill.BackgroundColor3 = theme.SliderFill
                 SliderFill.BorderSizePixel = 0
                 
                 local FillCorner = Instance.new("UICorner")
@@ -820,7 +1070,7 @@ function NytrixUI:Window(config)
                 return SliderContainer
             end
             
-            -- KEYBIND
+            -- ==================== KEYBIND ====================
             function section:Keybind(text, defaultKey, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local KeybindContainer = Instance.new("Frame")
@@ -834,7 +1084,7 @@ function NytrixUI:Window(config)
                 KeybindLabel.Size = UDim2.new(1, -65, 1, 0)
                 KeybindLabel.BackgroundTransparency = 1
                 KeybindLabel.Text = text
-                KeybindLabel.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                KeybindLabel.TextColor3 = theme.Text
                 KeybindLabel.TextSize = 11
                 KeybindLabel.Font = Enum.Font.GothamBold
                 KeybindLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -844,10 +1094,10 @@ function NytrixUI:Window(config)
                 KeybindButton.Name = "Keybind"
                 KeybindButton.Size = UDim2.new(0, 55, 0, 20)
                 KeybindButton.Position = UDim2.new(1, -55, 0.5, -10)
-                KeybindButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                KeybindButton.BackgroundColor3 = theme.Keybind
                 KeybindButton.BorderSizePixel = 0
                 KeybindButton.Text = tostring(defaultKey):gsub("Enum.KeyCode.", "")
-                KeybindButton.TextColor3 = config.Theme.Text or self.Themes.Dark.Text
+                KeybindButton.TextColor3 = theme.Text
                 KeybindButton.TextSize = 9
                 KeybindButton.Font = Enum.Font.GothamBold
                 
@@ -866,7 +1116,7 @@ function NytrixUI:Window(config)
                 KeybindButton.MouseButton1Click:Connect(function()
                     listening = true
                     KeybindButton.Text = "..."
-                    KeybindButton.BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
+                    KeybindButton.BackgroundColor3 = theme.KeybindListening
                     
                     if connection then
                         connection:Disconnect()
@@ -875,7 +1125,7 @@ function NytrixUI:Window(config)
                     connection = UserInputService.InputBegan:Connect(function(input)
                         if listening and input.UserInputType == Enum.UserInputType.Keyboard then
                             listening = false
-                            KeybindButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                            KeybindButton.BackgroundColor3 = theme.Keybind
                             updateKeybind(input.KeyCode)
                         end
                     end)
