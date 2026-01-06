@@ -1,3 +1,4 @@
+
 local NytrixUI = {
     Windows = {},
     Elements = {},
@@ -194,17 +195,28 @@ function NytrixUI:Window(config)
         table.insert(self.Tabs, name)
         self.TabObjects[name] = tab
 
-        local tabCount = #self.Tabs
-        local tabWidth = 1 / tabCount
+        -- FIXED: Use fixed width for tab buttons instead of dividing space
+        local TAB_WIDTH = 70  -- Fixed width for each tab
+        local TAB_SPACING = 5  -- Space between tabs
+        local totalTabs = #self.Tabs
+        
+        -- Calculate position for this tab
+        local positionX = 5  -- Start with some padding
+        for i, tabName in ipairs(self.Tabs) do
+            if tabName == name then
+                break
+            end
+            positionX = positionX + TAB_WIDTH + TAB_SPACING
+        end
         
         local TabButton = Instance.new("TextButton")
         TabButton.Name = name .. "Tab"
-        TabButton.Size = UDim2.new(tabWidth, -2, 1, 0)
-        TabButton.Position = UDim2.new((tabCount-1) * tabWidth, 1, 0, 0)
+        TabButton.Size = UDim2.new(0, TAB_WIDTH, 0.8, 0)  -- Fixed width, 80% height
+        TabButton.Position = UDim2.new(0, positionX, 0.1, 0)  -- 10% from top
         TabButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
         TabButton.BorderSizePixel = 0
         TabButton.Text = name
-        TabButton.TextColor3 = tabCount == 1 and (config.Theme.Text or self.Themes.Dark.Text) or Color3.fromRGB(150, 150, 150)
+        TabButton.TextColor3 = totalTabs == 1 and (config.Theme.Text or self.Themes.Dark.Text) or Color3.fromRGB(150, 150, 150)
         TabButton.TextSize = 11
         TabButton.Font = Enum.Font.GothamBold
         TabButton.Parent = TabsContainer
@@ -217,7 +229,7 @@ function NytrixUI:Window(config)
         TabHighlight.Position = UDim2.new(0, 0, 1, -2)
         TabHighlight.BackgroundColor3 = config.Theme.Accent or self.Themes.Dark.Accent
         TabHighlight.BorderSizePixel = 0
-        TabHighlight.Visible = tabCount == 1
+        TabHighlight.Visible = totalTabs == 1
         TabHighlight.Parent = TabButton
         
         local HighlightCorner = Instance.new("UICorner")
@@ -233,7 +245,7 @@ function NytrixUI:Window(config)
         TabContent.ScrollBarThickness = 3
         TabContent.ScrollBarImageColor3 = Color3.fromRGB(80, 80, 80)
         TabContent.ScrollBarImageTransparency = 0.5
-        TabContent.Visible = tabCount == 1
+        TabContent.Visible = totalTabs == 1
         TabContent.Parent = ContentFrame
         
         local UIListLayout = Instance.new("UIListLayout")
@@ -242,7 +254,7 @@ function NytrixUI:Window(config)
         
         tabFrames[name] = TabContent
         
-        if tabCount == 1 then
+        if totalTabs == 1 then
             self.CurrentTab = name
         end
         
@@ -366,7 +378,7 @@ function NytrixUI:Window(config)
                 Section.Size = UDim2.new(1, 0, 0, math.max(50, ContentLayout.AbsoluteContentSize.Y + 35))
             end)
             
-            -- ==================== BUTTON ====================
+            -- BUTTON
             function section:Button(text, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local Button = Instance.new("TextButton")
@@ -402,7 +414,7 @@ function NytrixUI:Window(config)
                 return Button
             end
             
-            -- ==================== TOGGLE ====================
+            -- TOGGLE
             function section:Toggle(text, default, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local ToggleContainer = Instance.new("Frame")
@@ -481,7 +493,7 @@ function NytrixUI:Window(config)
                 return ToggleContainer
             end
             
-            -- ==================== TEXTBOX ====================
+            -- TEXTBOX
             function section:Textbox(text, placeholder, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local InputContainer = Instance.new("Frame")
@@ -536,7 +548,7 @@ function NytrixUI:Window(config)
                 return TextBox
             end
             
-            -- ==================== DROPDOWN ====================
+            -- DROPDOWN
             function section:Dropdown(text, options, default, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local DropdownContainer = Instance.new("Frame")
@@ -647,7 +659,7 @@ function NytrixUI:Window(config)
                 return DropdownContainer
             end
             
-            -- ==================== SLIDER ====================
+            -- SLIDER
             function section:Slider(text, min, max, default, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local SliderContainer = Instance.new("Frame")
@@ -806,7 +818,7 @@ function NytrixUI:Window(config)
                 return SliderContainer
             end
             
-            -- ==================== KEYBIND ====================
+            -- KEYBIND
             function section:Keybind(text, defaultKey, callback)
                 section.ElementOrder = section.ElementOrder + 1
                 local KeybindContainer = Instance.new("Frame")
